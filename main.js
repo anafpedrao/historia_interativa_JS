@@ -10,12 +10,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "Educação.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade investiu em educação, melhorando a aprendizagem dos alunos e criando oportunidades para o futuro."
       },
       {
         texto: "Saúde.",
-        afirmacao: "afirmacao"
-
+        afirmacao: "A cidade priorizou a saúde, ampliando o atendimento médico e melhorando a qualidade de vida da população."
       }
     ]
   },
@@ -24,11 +23,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "Investir em infraestrutura.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade investiu em infraestrutura hídrica, reduzindo o desperdício e melhorando o abastecimento de água."
       },
       {
         texto: "Criar campanhas de conscientização.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade promoveu campanhas de conscientização, incentivando a população a economizar água e adotar hábitos sustentáveis."
       }
     ]
   },
@@ -37,11 +36,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "Aumentar a coleta.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade ampliou a coleta de resíduos, deixando as ruas mais limpas e reduzindo os problemas causados pelo descarte inadequado."
       },
       {
         texto: "Investir em reciclagem.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade fortaleceu a reciclagem, diminuiu a quantidade de resíduos enviados aos aterros e gerou oportunidades de trabalho."
       }
     ]
   },
@@ -49,38 +48,43 @@ const perguntas = [
     enunciado: "O trânsito está piorando.",
     alternativas: [
       {
-        texto: " Melhorar o transporte público.",
-        afirmacao: "afirmacao"
+        texto: "Melhorar o transporte público.",
+        afirmacao: "A cidade melhorou o transporte público, incentivando seu uso, reduzindo a quantidade de carros nas ruas e diminuindo a poluição."
       },
       {
         texto: "Construir novas vias.",
-        afirmacao: "afirmacao"
+        afirmacao: "A cidade construiu novas vias, facilitando inicialmente a circulação de veículos, mas aumentando os custos e a necessidade de planejamento ambiental."
       }
     ]
-
   },
   {
     enunciado: "Depois de quatro anos:",
     alternativas: [
       {
-        texto: " A cidade ficou mais sustentável.",
-        afirmacao: "afirmacao"
+        texto: "A cidade ficou mais sustentável.",
+        afirmacao: "Ao final de quatro anos, a cidade se tornou mais sustentável, com melhores serviços públicos, menos desperdício e maior preocupação ambiental."
       },
       {
         texto: "A cidade melhorou economicamente, mas ainda enfrenta problemas ambientais.",
-        afirmacao: "afirmacao"
-
+        afirmacao: "Ao final de quatro anos, a economia da cidade cresceu, mas os investimentos priorizaram o desenvolvimento econômico e alguns problemas ambientais continuaram sem solução."
       }
     ]
-  },
+  }
 ];
 
 let atual = 0;
 let perguntaAtual;
+let historiaFinal = "";
 
 function mostraPergunta() {
+  if (atual >= perguntas.length) {
+    mostraResultado();
+    return;
+  }
+
   perguntaAtual = perguntas[atual];
-  caixaPerguntas.textContent = perguntaAtual.enunciado
+  caixaPerguntas.textContent = perguntaAtual.enunciado;
+  caixaAlternativas.textContent = "";
   mostraAlternativas();
 }
 
@@ -88,12 +92,22 @@ function mostraAlternativas() {
   for (const alternativa of perguntaAtual.alternativas) {
     const botaoAlternativa = document.createElement("button");
     botaoAlternativa.textContent = alternativa.texto;
-    botaoAlternativa.addEventListener("click", function () {
-      atual++;
-      mostraPergunta();
-    })
+    botaoAlternativa.addEventListener("click", () => respostaSelecionada(alternativa));
     caixaAlternativas.appendChild(botaoAlternativa);
   }
+}
+
+function respostaSelecionada(opcaoSelecionada) {
+  const afirmacao = opcaoSelecionada.afirmacao;
+  historiaFinal += afirmacao + " ";
+  atual++;
+  mostraPergunta();
+}
+
+function mostraResultado() {
+  caixaPerguntas.textContent = "Em 2030...";
+  textoResultado.textContent = historiaFinal;
+  caixaAlternativas.textContent = "";
 }
 
 mostraPergunta();
